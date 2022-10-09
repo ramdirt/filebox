@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use App\Models\Traits\RelatesToTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Obj extends Model
 {
+    use RelatesToTeams;
+
     use HasFactory;
 
     public $table = 'objects';
@@ -26,5 +29,10 @@ class Obj extends Model
     public function objectable()
     {
         return $this->morphTo();
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Obj::class, 'parent_id', 'id');
     }
 }
