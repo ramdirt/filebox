@@ -21,12 +21,15 @@
 
         <div class="py-2 px-3">
             <div class="flex items-center">
-                <a href="#" class="font-bold text-gray-400">Breadcrumb</a>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-5 h-5 text-gray-300">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-
+                @foreach ($ancestors as $ancestor)
+                    <a href="#" class="font-bold text-gray-400">
+                        {{ $ancestor->objectable->name }}
+                    </a>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-5 h-5 text-gray-300">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                @endforeach
             </div>
         </div>
 
