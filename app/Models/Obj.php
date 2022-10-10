@@ -6,10 +6,11 @@ use Illuminate\Support\Str;
 use App\Models\Traits\RelatesToTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 class Obj extends Model
 {
-    use RelatesToTeams;
+    use RelatesToTeams, HasRecursiveRelationships;
 
     use HasFactory;
 
