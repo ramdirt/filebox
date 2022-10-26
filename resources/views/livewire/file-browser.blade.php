@@ -1,25 +1,25 @@
 <div>
     <div class="flex flex-wrap items-center justify-between">
-        <div class="flex-grow mr-0 md:mr-3 mt-4 md:mt-0 w-full md:w-auto order-3 md:order-1">
+        <div class="flex-grow order-3 w-full mt-4 mr-0 md:mr-3 md:mt-0 md:w-auto md:order-1">
             <input type="search" name="query" id="query" placeholder="Search files and folders"
-                class="w-full px-3 h-12 border-2 rounded-lg border-gray-400">
+                class="w-full h-12 px-3 border-2 border-gray-400 rounded-lg">
         </div>
         <div class="order-2">
             <div>
-                <button class="bg-gray-200 px-6 h-12 rounded-lg mr-2">
+                <button class="h-12 px-6 mr-2 bg-gray-200 rounded-lg " wire:click="$set('creatingNewFolder', true)">
                     New folder
                 </button>
 
-                <button class="bg-blue-500 px-6 h-12 rounded-lg mr-2 text-white">
+                <button class="h-12 px-6 mr-2 text-white bg-blue-500 rounded-lg">
                     Upload files
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="border-2 border-gray-200 rounded-lg mt-2">
+    <div class="mt-2 border-2 border-gray-200 rounded-lg">
 
-        <div class="py-2 px-3">
+        <div class="px-3 py-2">
             <div class="flex items-center">
                 @foreach ($ancestors as $ancestor)
                     <a href="{{ route('files', ['uuid' => $ancestor->uuid]) }}" class="font-bold text-gray-400">
@@ -39,25 +39,44 @@
             <table class="w-full">
                 <thead class="bg-gray-100">
                     <tr>
-                        <th class="text-left py-2 px-3">
+                        <th class="px-3 py-2 text-left">
                             Name
                         </th>
-                        <th class="text-left py-2 px-3 w-2/12">
+                        <th class="w-2/12 px-3 py-2 text-left">
                             Size
                         </th>
-                        <th class="text-left py-2 px-3 w-2/12">
+                        <th class="w-2/12 px-3 py-2 text-left">
                             Created
                         </th>
-                        <th class="p-2 w-2/12">
+                        <th class="w-2/12 p-2">
 
                         </th>
                     </tr>
                 </thead>
                 <tbody>
+                    // TODO: Сделать вывод переменной createNewFolder
+                    @if ($creatingNewFolder)
+                        <tr class="border-b-2 border-gray-100 hover:bg-gray-100">
+                            <td class="p-3">
+                                <form action="" class="flex items-center">
+                                    <input type="text" name="" id=""
+                                        class="w-full h-10 px-3 mr-2 border-gray-200 rounded-lg border-20"
+                                        wire:model='newFolderState.title'>
+                                    <button type="submit"
+                                        class="h-10 px-6 mr-2 text-white bg-blue-600 rounded-lg">Create</button>
+                                    <button wire:click="$set('creatingNewFolder', false)"
+                                        class="h-10 px-6 mr-2 text-white bg-gray-600 rounded-lg">Cancel</button>
+                                </form>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    @endif
                     @foreach ($object->children as $child)
                         <tr
                             class="border-gray-100 @if (!$loop->last) border-b-2 @endif hover:bg-gray-100">
-                            <td class="py-2 px-3 flex items-center">
+                            <td class="flex items-center px-3 py-2">
                                 @if ($child->objectable_type === 'file')
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-700">
@@ -75,32 +94,32 @@
 
                                 @if ($child->objectable_type === 'folder')
                                     <a href="{{ route('files', ['uuid' => $child->uuid]) }}"
-                                        class="p-2 font-bold text-blue-700 flex-grow">{{ $child->objectable->name }}</a>
+                                        class="flex-grow p-2 font-bold text-blue-700">{{ $child->objectable->name }}</a>
                                 @endif
 
                                 @if ($child->objectable_type === 'file')
                                     <a href=""
-                                        class="p-2 font-bold text-blue-700 flex-grow">{{ $child->objectable->name }}</a>
+                                        class="flex-grow p-2 font-bold text-blue-700">{{ $child->objectable->name }}</a>
                                 @endif
 
                             </td>
-                            <td class="py-2 px-3">
+                            <td class="px-3 py-2">
                                 @if ($child->objectable_type === 'file')
                                     {{ $child->objectable->size }}
                                 @else
                                     &mdash;
                                 @endif
                             </td>
-                            <td class="py-2 px-3">{{ $child->created_at }}</td>
-                            <td class="py-2 px-3">
-                                <div class="flex justify-end items-center">
+                            <td class="px-3 py-2">{{ $child->created_at }}</td>
+                            <td class="px-3 py-2">
+                                <div class="flex items-center justify-end">
 
                                     <ul class="flex items-center gap-2">
                                         <li>
-                                            <button class="text-gray-400 font-bold">Rename</button>
+                                            <button class="font-bold text-gray-400">Rename</button>
                                         </li>
                                         <li>
-                                            <button class="text-red-400 font-bold">Delete</button>
+                                            <button class="font-bold text-red-400">Delete</button>
                                         </li>
                                     </ul>
                                 </div>
